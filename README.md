@@ -98,6 +98,7 @@ Flow:
 ```
 
 ## Project Directory Structure
+```text
 .
 ├── .github/workflows/        # GitHub Actions CI/CD
 │   ├── portfolio_update.yml
@@ -119,6 +120,7 @@ Flow:
 │   └── visitor-counter.py
 │
 └── README.md
+```
 
 ## Features
 
