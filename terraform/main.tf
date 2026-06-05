@@ -1,79 +1,109 @@
 
 # ───────────── S3 Bucket - FrontEnd ───────────── #
 
-module "s3_bucket" {
-  source = "terraform-aws-modules/s3-bucket/aws"
-  version = "5.13.0"
+resource "aws_s3_bucket" "website_bucket" {
+  bucket = "mywebsite"
+}
 
-  bucket = "my-portfolio"
-  acl    = "private"
-
-  control_object_ownership = true
-  object_ownership         = "ObjectWriter"
-
-  versioning = {
-    enabled = true
+resource "aws_s3_bucket_ownership_controls" "website_bucket_ownership" {
+  bucket = aws_s3_bucket.website_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
   }
+}
+
+resource "aws_s3_bucket_acl" "website_bucket_acl" {
+  depends_on = [aws_s3_bucket_ownership_controls.website_bucket_ownership]
+
+  bucket = aws_s3_bucket.website_bucket.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_public_access_block" "website" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_policy" "website_policy" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid    = "AllowCloudFrontServicePrincipalReadOnly"
+        Effect = "Allow"
+
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        }
+
+        Action = [
+          "s3:GetObject"
+        ]
+
+        Resource = [
+          "${aws_s3_bucket.website_bucket.arn}/*"
+        ]
+
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = aws_cloudfront_distribution.website_distribution.arn
+          }
+        }
+      }
+    ]
+  })
 }
 
 # ───────────── CloudFront ───────────── #
 
-module "cdn" {
-  source = "terraform-aws-modules/cloudfront/aws"
+resource "aws_cloudfront_origin_access_control" "website_oac" {
+  name                              = "website-oac"
+  description                       = "OAC for website bucket"
+  origin_access_control_origin_type = "s3"
+  signing_behavior                  = "always"
+  signing_protocol                  = "sigv4"
+}
 
-  aliases = ["cdn.example.com"]
-  comment = "My awesome CloudFront"
+resource "aws_cloudfront_distribution" "website_distribution" {
+  enabled = true
 
-  origin_access_control = {
-    s3_oac = {
-      description      = "CloudFront access to S3"
-      origin_type      = "s3"
-      signing_behavior = "always"
-      signing_protocol = "sigv4"
-    }
+  origin {
+    domain_name              = aws_s3_bucket.website_bucket.bucket_regional_domain_name
+    origin_id                = "s3-origin"
+    origin_access_control_id = aws_cloudfront_origin_access_control.website_oac.id
   }
 
-  logging_config = {
-    bucket = "logs-my-cdn.s3.amazonaws.com"
-  }
+  default_cache_behavior {
+    target_origin_id       = "s3-origin"
+    viewer_protocol_policy = "redirect-to-https"
 
-  origin = {
-    something = {
-      domain_name = "something.example.com"
-      custom_origin_config = {
-        http_port              = 80
-        https_port             = 443
-        origin_protocol_policy = "match-viewer"
-        origin_ssl_protocols   = ["TLSv1.2"]
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
       }
     }
   }
 
-  default_cache_behavior = {
-    target_origin_id       = "something"
-    viewer_protocol_policy = "allow-all"
+  default_root_object = "index.html"
 
-    allowed_methods = ["GET", "HEAD", "OPTIONS"]
-    cached_methods  = ["GET", "HEAD"]
-    compress        = true
-    query_string    = true
+  restrictions {
+    geo_restriction {
+      restriction_type = "none"
+    }
   }
 
-  ordered_cache_behavior = [
-    {
-      path_pattern           = "/static/*"
-      target_origin_id       = "s3"
-      viewer_protocol_policy = "redirect-to-https"
-
-      allowed_methods = ["GET", "HEAD", "OPTIONS"]
-      cached_methods  = ["GET", "HEAD"]
-      compress        = true
-      query_string    = true
-    }
-  ]
-
-  viewer_certificate = {
-    acm_certificate_arn = "arn:aws:acm:us-east-1:135367859851:certificate/1032b155-22da-4ae0-9f69-e206f825458b"
-    ssl_support_method  = "sni-only"
+  viewer_certificate {
+    cloudfront_default_certificate = true
   }
 }
