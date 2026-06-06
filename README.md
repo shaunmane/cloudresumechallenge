@@ -122,6 +122,19 @@ Flow:
 └── README.md
 ```
 
+## Flow 
+```
+Internet
+   ↓
+shaunmane.com
+   ↓
+Cloudflare DNS
+   ↓
+CloudFront
+   ↓
+Private S3 Bucket (OAC)
+```
+
 ## Features
 
 - Fully serverless AWS architecture

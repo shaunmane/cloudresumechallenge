@@ -2,7 +2,7 @@
 # ───────────── S3 Bucket - FrontEnd ───────────── #
 
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "mywebsite"
+  bucket = var.bucket_name
 }
 
 resource "aws_s3_bucket_ownership_controls" "website_bucket_ownership" {
@@ -60,7 +60,7 @@ resource "aws_s3_bucket_policy" "website_policy" {
   })
 }
 
-# ───────────── CloudFront ───────────── #
+# ───────────── CloudFront - CDN ───────────── #
 
 resource "aws_cloudfront_origin_access_control" "website_oac" {
   name                              = "website-oac"
@@ -71,7 +71,13 @@ resource "aws_cloudfront_origin_access_control" "website_oac" {
 }
 
 resource "aws_cloudfront_distribution" "website_distribution" {
-  enabled = true
+  enabled             = true
+  default_root_object = "index.html"
+
+  aliases = [
+    var.domain_name,
+    "www.${var.domain_name}"
+  ]
 
   origin {
     domain_name              = aws_s3_bucket.website_bucket.bucket_regional_domain_name
@@ -95,8 +101,6 @@ resource "aws_cloudfront_distribution" "website_distribution" {
     }
   }
 
-  default_root_object = "index.html"
-
   restrictions {
     geo_restriction {
       restriction_type = "none"
@@ -104,6 +108,35 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   }
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn      = aws_acm_certificate.website_tls.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
+}
+
+
+# ───────────── ACM - TLS Cert ───────────── #
+
+resource "aws_acm_certificate" "website_tls" {
+  provider          = aws.us_east_1
+  domain_name       = var.domain_name
+  subject_alternative_names = [
+    "www.${var.domain_name}"
+  ]
+  validation_method = "DNS"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_acm_certificate_validation" "tls_validation" {
+  provider = aws.us_east_1
+
+  certificate_arn = aws_acm_certificate.website_tls.arn
+
+  validation_record_fqdns = [
+    for record in cloudflare_dns_record.acm_validation :
+    record.name
+  ]
 }

@@ -9,6 +9,10 @@ terraform {
     random = {
       source = "hashicorp/random"
     }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 5.0"
+    }
   }
 
   backend "s3" {
@@ -21,5 +25,10 @@ terraform {
 }
 
 provider "aws" {
+  alias  = "us_east_1"
   region = "us-east-1"
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
 }
