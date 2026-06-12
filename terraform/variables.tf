@@ -25,3 +25,9 @@ variable "rest_api_path" {
 variable "counter_api_stage_name" {
   type = string
 }
+
+variable "function_name" {
+  description = "Name of the Lambda function"
+  type        = string
+  default     = "counter_function"
+}
