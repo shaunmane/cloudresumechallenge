@@ -131,7 +131,7 @@ resource "aws_acm_certificate" "website_tls" {
 }
 
 resource "aws_acm_certificate_validation" "tls_validation" {
-  provider = aws.us_east_1
+  provider = aws.us_east_1            
 
   certificate_arn = aws_acm_certificate.website_tls.arn
 

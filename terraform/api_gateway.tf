@@ -7,9 +7,9 @@ resource "aws_api_gateway_rest_api" "counter_api" {
     }
     paths = {
       (var.rest_api_path) = {
-        post = {
+        get = {
           x-amazon-apigateway-integration = {
-            httpMethod           = "POST"
+            httpMethod           = "GET"
             payloadFormatVersion = "1.0"
             type                 = "AWS_PROXY"
             uri                  = aws_lambda_function.counter_function.invoke_arn

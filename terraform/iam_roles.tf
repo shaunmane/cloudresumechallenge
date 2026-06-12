@@ -82,5 +82,9 @@ resource "aws_lambda_permission" "apigw_lambda" {
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.counter_function.function_name
   principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.resume_api.execution_arn}/*/*"
+  source_arn    = "${aws_api_gateway_rest_api.counter_api.execution_arn}/*/*"
 }
+
+# ─────────────────────────────────────────────
+# CloudFront
+# ─────────────────────────────────────────────
