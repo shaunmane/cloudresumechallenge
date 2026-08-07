@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shaun Mane — Cloud/DevOps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="templatemo-621-luminary-style.css">
+<!--
+TemplateMo 621 Luminary
+https://templatemo.com/tm-621-luminary
+-->
+</head>
+<body>
+
+<svg class="grain" width="100%" height="100%">
+  <filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="5" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/></filter>
+  <rect width="100%" height="100%" filter="url(#n)"/>
+</svg>
+<div class="atmosphere"></div>
+
+<!-- Nav -->
+<nav class="top-nav" id="topNav">
+  <a href="#" class="nav-brand">Shaun<span>Mane</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <!-- Desktop Date/Time Display -->
+  <span class="nav-datetime" id="navDateTimeDesktop">--:--:-- --</span>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+    <span class="toggle-bar"></span><span class="toggle-bar"></span>
+  </button>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-inner">
+    <div class="mobile-menu-links">
+      <a href="#" class="mobile-menu-link" data-index="01">Home</a>
+      <a href="#about" class="mobile-menu-link" data-index="02">About</a>
+      <a href="#projects" class="mobile-menu-link" data-index="03">Projects</a>
+      <a href="#skills" class="mobile-menu-link" data-index="04">Skills</a>
+      <a href="#certs" class="mobile-menu-link" data-index="05">Certs</a>
+      <a href="#contact" class="mobile-menu-link" data-index="06">Contact</a>
+    </div>
+  </div>
+</div>
+
+<!-- Side Panels -->
+<nav class="side-panel left" aria-label="Scroll indicators">
+  <span class="side-label">Scroll</span>
+  <div class="side-track"><div class="side-track-fill" id="leftTrack"></div></div>
+  <div class="side-dot active"></div>
+  <div class="side-dot"></div>
+  <div class="side-dot"></div>
+  <div class="side-dot"></div>
+  <div class="side-dot"></div>
+  <div class="side-readout" id="scrollPct">00</div>
+</nav>
+
+<nav class="side-panel right" aria-label="Status indicators">
+  <span class="side-label">Status</span>
+  <div class="side-track"><div class="side-track-fill" id="rightTrack"></div></div>
+  <div class="side-dot"></div>
+  <div class="side-dot"></div>
+  <div class="side-dot active"></div>
+  <div class="side-dot"></div>
+  <div class="side-dot"></div>
+  <div class="side-readout">LMN</div>
+</nav>
+
+<main class="main">
+
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      <span>Open to Opportunities</span>
+    </div>
+    <h1>Hello, I'm<br><em>Shaun Mane</em></h1>
+    <p class="hero-sub">
+      From managing construction projects to building cloud infrastructure, 
+      I bring a problem-solving mindset to every challenge. 
+      I build secure, reliable, and scalable cloud infrastructure using AWS, Terraform, Kubernetes,
+      and cloud-native technologies.
+    </p>
+    <div class="hero-ctas">
+      <a href="https://github.com/shaunmane" target="_blank" rel="noopener noreferrer" class="btn-primary">GitHub</a>
+      <a href="#contact" class="btn-secondary">Get In Touch</a>
+    </div>
+    <div class="hero-metrics">
+      <div class="metric">
+        <div class="metric-value"><span class="counter" data-target="231" data-decimals="0">0</span></div>
+        <div class="metric-label">You're Visitor</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ LOGO TICKER ═══ -->
+  <div class="logo-ticker reveal">
+    <div class="logo-ticker-label">Trusted by forward-thinking teams</div>
+    <div class="ticker-track" id="tickerTrack">
+      <span class="ticker-item">AWS</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Terraform</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Kubernetes</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Linux</span><span class="ticker-dot"></span>
+      <span class="ticker-item">GitHub</span><span class="ticker-dot"></span>
+      <span class="ticker-item">ArgoCD</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Docker</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Grafana</span><span class="ticker-dot"></span>
+      <!-- Duplicated for seamless loop -->
+      <span class="ticker-item">AWS</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Terraform</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Kubernetes</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Linux</span><span class="ticker-dot"></span>
+      <span class="ticker-item">GitHub</span><span class="ticker-dot"></span>
+      <span class="ticker-item">ArgoCD</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Docker</span><span class="ticker-dot"></span>
+      <span class="ticker-item">Grafana</span><span class="ticker-dot"></span>
+    </div>
+  </div>
+
+  <!-- ═══ ABOUT ═══ -->
+  <section class="section" id="about">
+
+    <div class="feature reveal">
+      <div class="about content">
+        <p class="section-tag">Who I am</p>
+        <h2 class="section-title"><strong>About</strong></h2>
+      </div>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-visual">
+        <img src="images/headshot.jpg" alt="My headshot">
+      </div>
+      <div class="feature-content">
+        <p class="section-body" style="text-align: left; margin-bottom: 1.0rem;">
+          I’m a Cloud Engineer with a background in Construction Management, where I developed a strong foundation in planning, problem-solving, risk management, and delivering complex projects. 
+          Those same skills now drive my work in designing and automating reliable cloud infrastructure.
+        </p>
+        <p class="section-body" style="text-align: left;">
+          After transitioning into tech, I’ve focused on AWS, Terraform, Linux, Kubernetes, and DevOps practices, building production-inspired projects that demonstrate Infrastructure as Code, 
+          CI/CD pipelines, containerized applications, and scalable cloud architectures.
+        </p>
+      </div>
+    </div>
+    <div class="feature reverse reveal">
+      <div class="feature-visual">
+        <a href="https://shaunmanesm.wixsite.com/shaunmane" target="_blank" rel="noopener noreferrer" class="image-link">
+          <img src="images/sunset.jpg" alt="Photography">
+        </a>
+      </div>
+      <div class="feature-content">
+        <p class="section-body" style="text-align: left; margin-bottom: 1.0rem;">
+          I enjoy turning complex problems into simple, automated solutions and continuously expanding my knowledge through hands-on learning, certifications, and real-world projects. 
+          My long-term goal is to become not only a competent, but also a reliable and dependable engineer helping organizations build secure, scalable, and resilient cloud platforms.
+        </p>
+        <p class="section-body" style="text-align: left; margin-bottom: 1.0rem;">
+          When I’m not building in the cloud, you’ll find me capturing moments behind the lens — click the image on the right to see some of my work.
+        </p>
+      </div>
+    </div>  
+
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  <!-- ═══ PROJECTS ═══ -->
+  <section class="section section-center" id="projects">
+    <p class="section-tag reveal">Projects</p>
+    <h2 class="section-title reveal reveal-d1">Infrastructure &amp; <strong>Cloud</strong></h2>
+    <p class="section-body reveal reveal-d2" style="margin-bottom: 3.5rem;">A selection of projects showcasing my skills in cloud infrastructure, DevOps, automation, and modern software deployment.</p>
+
+    <div class="pricing-grid">
+      <div class="pricing-card reveal reveal-d1">
+        <div class="pricing-tier">AWS DevOps Blue/Green Pipeline Workshop (Terraform IaC)</div>
+        <div class="pricing-prices">
+          <div class="price-option monthly active">
+            <div>
+              <div class="price-label">AWS DevOps Blue/Green Pipeline Workshop (Terraform IaC)</div>
+            </div>
+            
+          </div>
+          
+        </div>
+        <p class="pricing-desc">A Terraform-built CI/CD pipeline that builds a Docker image, pushes it to ECR, and deploys it to ECS using CodePipeline, CodeBuild, and CodeDeploy with Blue/Green traffic shifting.</p>
+        
+        <a href="#">GitHub</a>
+      </div>
+
+      <div class="pricing-card featured reveal reveal-d2">
+        <div class="pricing-badge">Popular</div>
+        <div class="pricing-tier">Professional</div>
+        <div class="pricing-prices">
+          <div class="price-option monthly active">
+            <div>
+              <div class="price-label">Monthly</div>
+              <div class="price-option-left">
+                <span class="price-currency">$</span>
+                <span class="price-amount">80</span>
+                <span class="price-period">/mo</span>
+              </div>
+            </div>
+            <div class="price-yearly">$960 /yr</div>
+          </div>
+          <div class="price-option annual">
+            <div>
+              <div class="price-label">Annual</div>
+              <div class="price-option-left">
+                <span class="price-currency">$</span>
+                <span class="price-amount">56</span>
+                <span class="price-period">/mo</span>
+              </div>
+            </div>
+            <div class="price-yearly">$672 /yr</div>
+          </div>
+        </div>
+        <p class="pricing-desc">For growing teams that need predictive intelligence and advanced automation.</p>
+        <ul class="pricing-features">
+          <li>Unlimited team members</li>
+          <li>Unlimited workflows</li>
+          <li>Predictive insights engine</li>
+          <li>Priority support + Slack</li>
+          <li>Unlimited integrations</li>
+          <li>Custom dashboards</li>
+        </ul>
+        <a href="#" class="btn-primary">Start Free Trial</a>
+      </div>
+
+      <div class="pricing-card reveal reveal-d3">
+        <div class="pricing-badge">Popular</div>
+        <div class="pricing-tier">Enterprise</div>
+        <div class="pricing-prices">
+          <div class="price-option monthly active">
+            <div>
+              <div class="price-label">Monthly</div>
+              <div class="price-option-left">
+                <span class="price-currency">$</span>
+                <span class="price-amount">160</span>
+                <span class="price-period">/mo</span>
+              </div>
+            </div>
+            <div class="price-yearly">$1,920 /yr</div>
+          </div>
+          <div class="price-option annual">
+            <div>
+              <div class="price-label">Annual</div>
+              <div class="price-option-left">
+                <span class="price-currency">$</span>
+                <span class="price-amount">112</span>
+                <span class="price-period">/mo</span>
+              </div>
+            </div>
+            <div class="price-yearly">$1,344 /yr</div>
+          </div>
+        </div>
+        <p class="pricing-desc">For organizations requiring dedicated infrastructure and compliance controls.</p>
+        <ul class="pricing-features">
+          <li>Everything in Professional</li>
+          <li>Dedicated instance</li>
+          <li>SSO + SAML</li>
+          <li>Audit logs + compliance</li>
+          <li>Dedicated success manager</li>
+          <li>Custom SLA</li>
+          <li>On-premise deployment option</li>
+        </ul>
+        <a href="#" class="btn-secondary">Contact Sales</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  <!-- ═══ SKILLS ═══ -->
+  <section class="section section-center" id="skills">
+    <p class="section-tag reveal">Technology</p>
+    <h2 class="section-title reveal reveal-d1"><strong>Skills</strong></h2>
+    <p class="section-body reveal reveal-d2" style="margin-bottom: 3.5rem;">A practical toolset shaped by hands-on cloud, and delivery projects.</p>
+
+    <div class="skills-grid">
+
+        <!-- CLOUD -->
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">☁</div>
+            <h4>Cloud &amp; Infrastructure</h4>
+            <div class="skills-container">
+                <span>AWS</span>
+                <span>S3</span>
+                <span>EC2</span>
+                <span>ECS</span>
+                <span>EKS</span>
+                <span>VPC</span>
+                <span>Load Balancer</span>
+                <span>Auto Scaling</span>
+            </div>
+        </div>
+
+        <!-- CONTAINERS -->
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">📦</div>
+            <h4>Containers &amp; Orchestration</h4>
+            <div class="skills-container">
+                <span>Docker</span>
+                <span>Kubernetes</span>
+                <span>Helm</span>
+                <span>Kustomize</span>
+                <span>ArgoCD</span>
+                <span>Rancher</span>
+            </div>
+        </div>
+
+        <!-- CICD -->
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">⚙</div>
+            <h4>CI/CD &amp; Automation</h4>
+            <div class="skills-container">
+                <span>Git</span>
+                <span>GitHub Actions</span>
+                <span>CI/CD Pipelines</span>
+                <span>Release Validation</span>
+                <span>Shell Scripting</span>
+            </div>
+        </div>
+
+        <!-- IAC -->
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">🏗</div>
+            <h4>Infrastructure as Code</h4>
+            <div class="skills-container">
+                <span>Terraform</span>
+                <span>Modular Architecture</span>
+            </div>
+        </div>
+
+        <!-- PLATFORM -->
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">🌐</div>
+            <h4>Platform &amp; Delivery</h4>
+            <div class="skills-container">
+                <span>S3</span>
+                <span>CloudFront</span>
+                <span>ECR</span>
+                <span>Static Hosting</span>
+            </div>
+        </div>
+
+        <!-- SECURITY -->
+        <!--
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">🛡</div>
+            <h4>Security &amp; DevSecOps</h4>
+            <div class="skills-container">
+                <span>Trivy</span>
+                <span>Gitleaks</span>
+                <span>Checkov</span>
+                <span>Security Scanning</span>
+            </div>
+        </div>
+        -->
+
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">📡</div>
+            <h4>Monitoring &amp; Observability</h4>
+            <div class="skills-container">
+                <span>Prometheus</span>
+                <span>Grafana</span>
+                <span>Alertmanager</span>
+                <span>CloudWatch</span>
+            </div>
+        </div>
+
+        <!-- OS -->
+        <div class="skill-card">
+            <div class="card-icon" aria-hidden="true">💻</div>
+            <h4>Systems & Scripting</h4>
+            <div class="skills-container">
+                <span>Linux</span>
+                <span>Bash</span>
+            </div>
+        </div>
+
+    </div>
+
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  <!-- ═══ CERTS ═══ -->
+  <section class="section section-center" id="certs">
+    <p class="section-tag reveal">Credentials</p>
+    <h2 class="section-title reveal reveal-d1"><strong>Certifications</strong></h2>
+    <p class="section-body reveal reveal-d2" style="margin-bottom: 3.5rem;">Industry-recognized certifications demonstrating cloud and infrastructure expertise.</p>
+
+    <div class="certs__grid fade-in visible">
+      <a href="https://www.credly.com/badges/b765219f-bfe6-4c6b-99b5-f4e7b5c6172b" target="_blank" rel="noopener noreferrer" class="cert-card stagger-1">
+        <div class="cert-card__badge">
+            <img src="./images/cloud_pract.png" alt="AWS Cloud Practitioner badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">AWS Cloud Practitioner</h4>
+        <p class="cert-card__issuer">Amazon Web Services</p>
+        <span class="cert-card__verify">Verify on Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/36441d01-5513-429a-b30c-7c40965e86b8" target="_blank" rel="noopener noreferrer" class="cert-card stagger-2">
+        <div class="cert-card__badge">
+            <img src="./images/sol_assoc.png" alt="AWS SAA badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">AWS Certified Solutions Architect: Associate</h4>
+        <p class="cert-card__issuer">Amazon Web Services</p>
+        <span class="cert-card__verify">Verify on Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/02482651-afaf-42e5-91e6-5b2e4f8d71f1" target="_blank" rel="noopener noreferrer" class="cert-card stagger-3">
+        <div class="cert-card__badge">
+            <img src="./images/dev_assoc.png" alt="AWS Dev Assoc badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">AWS Certified Developer: Associate</h4>
+        <p class="cert-card__issuer">Amazon Web Services</p>
+        <span class="cert-card__verify">Verify on Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/4bd01d87-2599-47e3-8c34-7a1214af42ff" target="_blank" rel="noopener noreferrer" class="cert-card stagger-3">
+        <div class="cert-card__badge">
+            <img src="./images/terraform.png" alt="Terraform Associate badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">Terraform Associate</h4>
+        <p class="cert-card__issuer">HashiCorp</p>
+        <span class="cert-card__verify">Verify on Credly →</span>
+      </a>
+
+      <a href="https://learn.microsoft.com/en-us/users/shaunmane-9677/credentials/6c6d6c8bab3a2759?ref=https%3A%2F%2Fwww.linkedin.com%2F" target="_blank" rel="noopener noreferrer" class="cert-card stagger-3">
+        <div class="cert-card__badge">
+            <img src="./images/githubactions.png" alt="GitHub Actions badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">GitHub Actions</h4>
+        <p class="cert-card__issuer">Microsoft</p>
+        <span class="cert-card__verify">Verify on Microsoft →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/1cee0e0c-f6cb-443f-8d89-4165cd747906" target="_blank" rel="noopener noreferrer" class="cert-card stagger-3">
+        <div class="cert-card__badge">
+            <img src="./images/kcna.png" alt="KCNA badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">KCNA: Kubernetes and Cloud Native Associate</h4>
+        <p class="cert-card__issuer">The Linux Foundation</p>
+        <span class="cert-card__verify">Verify on Credly →</span>
+      </a>
+
+      <a href="https://www.credly.com/badges/8b0056e5-861c-44ed-808c-bb4ea8fbdc71" target="_blank" rel="noopener noreferrer" class="cert-card stagger-3">
+        <div class="cert-card__badge">
+            <img src="./images/ckad.png" alt="CKAD badge" loading="lazy">
+        </div>
+        <h4 class="cert-card__title">CKAD: Certified Kubernetes Application Developer</h4>
+        <p class="cert-card__issuer">The Linux Foundation</p>
+        <span class="cert-card__verify">Verify on Credly →</span>
+      </a>
+
+    </div>
+
+  </section>
+
+  <div class="silk-divider reveal"></div>
+
+  <!-- ═══ CONTACT ═══ -->
+  <section class="footer-cta" id="contact">
+    <p class="section-tag reveal">Let's Talk</p>
+    <h2 class="section-title reveal reveal-d1">Your team's best work<br><strong>starts here</strong></h2>
+    <p class="section-body reveal reveal-d2" style="margin: 0 auto;">Open to Cloud Engineering, Cloud support, DevOps Engineering, and Site Reliability Engineering roles. SA-based, open to relocation and remote.</p>
+    <div class="footer-ctas reveal reveal-d3">
+      <a href="https://github.com/shaunmane" class="btn-primary">GitHub</a>
+      <a href="www.linkedin.com/in/shaun-mane" class="btn-secondary">LinkedIn</a>
+      <a href="#" class="btn-secondary">Resume</a>
+    </div>
+
+    <div class="footer-bar reveal reveal-d4" style="margin-top: 80px;">
+      <div class="footer-brand">Shaun Mane &mdash; 2026</div>
+    </div>
+  </section>
+
+</main>
+
+<script src="templatemo-621-luminary-script.js"></script>
+</body>
+</html>
