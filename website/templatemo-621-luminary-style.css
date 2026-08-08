@@ -537,6 +537,95 @@ body.menu-open .top-nav { background: rgba(15,17,21,0.95); backdrop-filter: blur
 
 
 /* ══════════════════════════════════
+   PROJECTS
+   ══════════════════════════════════ */
+/* 1. Ensure grid items stretch equally in height */
+.projects__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch; /* Forces all grid items to have equal height */
+}
+
+/* 2. Make card fill 100% height and space children uniformly */
+.projects-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: Left;
+  height: 100%;
+  min-height: 280px; /* <--- Set your desired minimum height here */
+  box-sizing: border-box;
+  background: var(--panel-bg, #1a1a1a);
+  border: 1px solid var(--panel-border, rgba(255, 255, 255, 0.1));
+  border-radius: 16px;
+  padding: 36px 24px; /* <--- Increased top & bottom padding from 24px to 36px */
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 3. Badge Container */
+.projects__badge {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.projects__badge img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* 4. Text Typography */
+.projects-card__title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+}
+
+.projects-card__issuer {
+  font-size: 0.85rem; font-weight: 300; line-height: 1.8; color: var(--slate-light); max-width: 540px;
+}
+
+/* 5. Push 'Verify on Credly' link to the bottom so all align perfectly */
+.projects-card__verify {
+  margin-top: auto; /* Drives span to the bottom of the equal box */
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--silver, #48dff9);
+  transition: color 0.3s ease;
+}
+
+/* --- Blue Hover Effect --- */
+.projects-card:hover {
+  border-color: #00ffd0;
+  box-shadow: 0 0 15px rgba(0, 213, 255, 0.111);
+  transform: translateY(-4px);
+}
+
+.projects-card:hover .projects-card__verify {
+  color: #00ffd0;
+}
+
+/* Mobile Breakpoints */
+@media (max-width: 900px) {
+  .projects__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .projects__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ══════════════════════════════════
    FOOTER CTA
    ══════════════════════════════════ */
 .footer-cta { padding: 120px 0 80px; text-align: center; }
@@ -759,7 +848,7 @@ body.menu-open .top-nav { background: rgba(15,17,21,0.95); backdrop-filter: blur
 
 .cert-card__issuer {
   font-size: 0.9rem;
-  color: var(--silver, #a0a0a0);
+  color: var(--slate-light);
   margin: 0 0 16px 0;
 }
 
