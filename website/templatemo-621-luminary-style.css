@@ -88,7 +88,7 @@ body {
 .nav-datetime {
   /* Match font properties of navigation links */
   font-family: inherit;
-  font-size: 0.95rem; /* Match your .nav-links a font size */
+  font-size: 0.85rem; /* Match your .nav-links a font size */
   font-weight: 500;    /* Match your .nav-links a font weight */
   color: var(--silver, #a0a0a0);
   
