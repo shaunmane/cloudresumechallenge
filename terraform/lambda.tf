@@ -13,10 +13,4 @@ resource "aws_lambda_function" "counter_function" {
     application_log_level = "INFO"
     system_log_level      = "WARN"
   }
-
-  # Ensure IAM role and log group are ready
-  depends_on = [
-    aws_iam_role_policy_attachment.lambda_logs,
-    aws_cloudwatch_log_group.lambda_logs
-  ]
 }
