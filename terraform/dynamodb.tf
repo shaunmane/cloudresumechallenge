@@ -17,12 +17,8 @@ resource "aws_dynamodb_table_item" "first_one" {
 
   item = <<ITEM
   {
-    "id": {
-      "S": "1"
-    },
-    "item1": {
-      "S": "1"
-    }
+    "id": {"S": "site_hits"},
+    "views": {"N": "0"}
   }
   ITEM
 }

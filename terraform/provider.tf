@@ -4,19 +4,19 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "> 6.15.0"
+      version = "> 6.55.0"
     }
     random = {
       source = "hashicorp/random"
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 5.0"
+      version = "~> 5.22"
     }
   }
 
   backend "s3" {
-    bucket       = "portfolio-tf-state"
+    bucket       = "portfolio-website-tf-state"
     key          = "portfolio/terraform.tfstate"
     region       = "us-east-1"
     use_lockfile = true
@@ -25,7 +25,6 @@ terraform {
 }
 
 provider "aws" {
-  alias  = "us_east_1"
   region = "us-east-1"
 }
 
