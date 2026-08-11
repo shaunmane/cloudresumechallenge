@@ -11,7 +11,3 @@ data "aws_subnets" "default_vpc_subnets" {
     values = [var.vpc_id]
   }
 }
-
-data "cloudflare_zone" "main" {
-  name = "shaunmane.com"
-}

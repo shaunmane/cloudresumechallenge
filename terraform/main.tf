@@ -18,7 +18,7 @@ resource "aws_s3_bucket_public_access_block" "website" {
 resource "aws_s3_object" "website_files" {
   for_each = fileset("${path.module}/../website", "**/*")
 
-  bucket = aws_s3_bucket.website.id
+  bucket = aws_s3_bucket.website_bucket.id
   key    = each.value
   source = "${path.module}/../website/${each.value}"
 
@@ -57,7 +57,6 @@ resource "aws_s3_bucket_policy" "website_policy" {
 # TLS/SSL Certificate
 
 resource "aws_acm_certificate" "website_tls" {
-  provider    = aws.us_east_1
   domain_name = var.domain_name
   subject_alternative_names = [
     "www.${var.domain_name}"
@@ -69,9 +68,26 @@ resource "aws_acm_certificate" "website_tls" {
   }
 }
 
-resource "aws_acm_certificate_validation" "tls_validation" {
-  provider = aws.us_east_1
+resource "cloudflare_dns_record" "acm_validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.website_tls.domain_validation_options :
+    dvo.domain_name => {
+      name  = dvo.resource_record_name
+      type  = dvo.resource_record_type
+      value = dvo.resource_record_value
+    }
+  }
 
+  zone_id = var.cloudflare_zone_id
+  name    = each.value.name
+  type    = each.value.type
+  content = each.value.value
+
+  ttl     = 60
+  proxied = false
+}
+
+resource "aws_acm_certificate_validation" "tls_validation" {
   certificate_arn = aws_acm_certificate.website_tls.arn
 
   validation_record_fqdns = [

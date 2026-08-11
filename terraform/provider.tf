@@ -11,7 +11,7 @@ terraform {
     }
     cloudflare = {
       source  = "cloudflare/cloudflare"
-      version = "~> 5.0"
+      version = "~> 5.22"
     }
   }
 
@@ -25,7 +25,6 @@ terraform {
 }
 
 provider "aws" {
-  alias  = "us_east_1"
   region = "us-east-1"
 }
 

@@ -9,11 +9,11 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
 }
 
 resource "aws_cloudwatch_log_group" "apigw_logs" {
-  name              = "/aws/apigw/${var.rest_api_name}"
+  name              = "/aws/apigw/${var.api_name}"
   retention_in_days = var.log_retention_in_days
 
   tags = {
-    resource = var.rest_api_name
+    resource = var.api_name
   }
 }
 
@@ -49,7 +49,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
 
         properties = {
           title  = "Lambda Invocations & Errors"
-          region = aws.us_east_1
+          region = var.aws_region
 
           metrics = [
             ["AWS/Lambda", "Invocations", "FunctionName", aws_lambda_function.counter_function.function_name],
@@ -76,7 +76,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
               "AWS/ApiGateway",
               "Count",
               "ApiName",
-              aws_api_gateway_rest_api.counter_api.name
+              var.api_name
             ]
           ]
 
@@ -140,7 +140,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
 
           stat   = "Sum"
           period = 300
-          region = "us-east-1"
+          region = var.aws_region
         }
       }
     ]
