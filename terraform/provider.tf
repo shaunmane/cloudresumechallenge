@@ -4,7 +4,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "> 6.15.0"
+      version = "> 6.55.0"
     }
     random = {
       source = "hashicorp/random"
@@ -16,7 +16,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket       = "portfolio-tf-state"
+    bucket       = "portfolio-website-tf-state"
     key          = "portfolio/terraform.tfstate"
     region       = "us-east-1"
     use_lockfile = true

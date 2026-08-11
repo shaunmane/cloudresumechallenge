@@ -1,0 +1,6 @@
+domain_name   = "shaunmane.com"
+bucket_name   = "portfolio-website"
+api_name      = "visitor-counter-api"
+function_name = "counter_function"
+db_table      = "site-visitor-counter"
+lambda_role   = "lambda_execution_role"

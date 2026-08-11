@@ -32,21 +32,21 @@ resource "aws_s3_bucket_policy" "website_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-            "Sid": "AllowCloudFrontServicePrincipal",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "cloudfront.amazonaws.com"
-            },
-            "Action": "s3:GetObject",
-            "Resource": "${aws_s3_bucket.website_bucket.arn}/*",
-            "Condition": {
-                "StringEquals": {
-                    "AWS:SourceArn": [
-                        "${aws_cloudfront_distribution.website_distribution.arn}"
-                    ]
-                }
-            }
-      } 
+        "Sid" : "AllowCloudFrontServicePrincipal",
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "cloudfront.amazonaws.com"
+        },
+        "Action" : "s3:GetObject",
+        "Resource" : "${aws_s3_bucket.website_bucket.arn}/*",
+        "Condition" : {
+          "StringEquals" : {
+            "AWS:SourceArn" : [
+              "${aws_cloudfront_distribution.website_distribution.arn}"
+            ]
+          }
+        }
+      }
     ]
   })
 }
@@ -57,8 +57,8 @@ resource "aws_s3_bucket_policy" "website_policy" {
 # TLS/SSL Certificate
 
 resource "aws_acm_certificate" "website_tls" {
-  provider          = aws.us_east_1
-  domain_name       = var.domain_name
+  provider    = aws.us_east_1
+  domain_name = var.domain_name
   subject_alternative_names = [
     "www.${var.domain_name}"
   ]
@@ -70,7 +70,7 @@ resource "aws_acm_certificate" "website_tls" {
 }
 
 resource "aws_acm_certificate_validation" "tls_validation" {
-  provider = aws.us_east_1            
+  provider = aws.us_east_1
 
   certificate_arn = aws_acm_certificate.website_tls.arn
 

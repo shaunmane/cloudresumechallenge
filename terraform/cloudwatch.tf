@@ -4,7 +4,7 @@ resource "aws_cloudwatch_log_group" "lambda_logs" {
   retention_in_days = var.log_retention_in_days
 
   tags = {
-    Function    = var.function_name
+    Function = var.function_name
   }
 }
 
@@ -13,7 +13,7 @@ resource "aws_cloudwatch_log_group" "apigw_logs" {
   retention_in_days = var.log_retention_in_days
 
   tags = {
-    resource    = var.rest_api_name
+    resource = var.rest_api_name
   }
 }
 
@@ -22,7 +22,7 @@ resource "aws_cloudwatch_log_group" "dynamodb_logs" {
   retention_in_days = var.log_retention_in_days
 
   tags = {
-    resource    = var.db_table
+    resource = var.db_table
   }
 }
 
@@ -31,7 +31,7 @@ resource "aws_cloudwatch_log_group" "cloudfront_distribution_logs" {
   retention_in_days = var.log_retention_in_days
 
   tags = {
-    resource    = "website_distribution"
+    resource = "website_distribution"
   }
 }
 
@@ -48,7 +48,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
         height = 6
 
         properties = {
-          title = "Lambda Invocations & Errors"
+          title  = "Lambda Invocations & Errors"
           region = aws.us_east_1
 
           metrics = [
@@ -56,7 +56,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
             [".", "Errors", ".", "."]
           ]
 
-          stat = "Sum"
+          stat   = "Sum"
           period = 300
         }
       },
@@ -80,7 +80,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
             ]
           ]
 
-          stat = "Sum"
+          stat   = "Sum"
           period = 300
           region = var.aws_region
         }
@@ -111,7 +111,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
             ]
           ]
 
-          stat = "Sum"
+          stat   = "Sum"
           period = 300
           region = var.aws_region
         }
@@ -138,7 +138,7 @@ resource "aws_cloudwatch_dashboard" "cloud_resume" {
             ]
           ]
 
-          stat = "Sum"
+          stat   = "Sum"
           period = 300
           region = "us-east-1"
         }

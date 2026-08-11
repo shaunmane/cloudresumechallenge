@@ -5,25 +5,19 @@ variable "cloudflare_api_token" {
 
 variable "domain_name" {
   type = string
-  default = "shaunmane.com"
 }
 
 variable "bucket_name" {
   type = string
-  default = "mywebsite"
 }
 
-variable "rest_api_name" {
+variable "api_name" {
   type = string
 }
 
 variable "rest_api_path" {
-  type =string
+  type    = string
   default = "/"
-}
-
-variable "counter_api_stage_name" {
-  type = string
 }
 
 variable "function_name" {
@@ -33,6 +27,6 @@ variable "function_name" {
 }
 
 variable "db_table" {
-  type = string
+  type    = string
   default = "site-visitor-counter"
 }
