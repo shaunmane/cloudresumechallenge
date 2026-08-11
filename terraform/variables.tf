@@ -31,3 +31,8 @@ variable "function_name" {
   type        = string
   default     = "counter_function"
 }
+
+variable "db_table" {
+  type = string
+  default = "site-visitor-counter"
+}

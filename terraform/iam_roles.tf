@@ -27,7 +27,6 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
-
 # ─────────────────────────────────────────────
 # API Gateway
 # ─────────────────────────────────────────────
@@ -39,7 +38,3 @@ resource "aws_lambda_permission" "apigw_lambda" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_api_gateway_rest_api.counter_api.execution_arn}/*/*"
 }
-
-# ─────────────────────────────────────────────
-# CloudFront
-# ─────────────────────────────────────────────

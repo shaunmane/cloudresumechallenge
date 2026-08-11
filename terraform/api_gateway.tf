@@ -1,45 +1,40 @@
-resource "aws_api_gateway_rest_api" "counter_api" {
-  body = jsonencode({
-    openapi = "3.0.1"
-    info = {
-      title   = var.rest_api_name
-      version = "1.0"
-    }
-    paths = {
-      (var.rest_api_path) = {
-        get = {
-          x-amazon-apigateway-integration = {
-            httpMethod           = "GET"
-            payloadFormatVersion = "1.0"
-            type                 = "AWS_PROXY"
-            uri                  = aws_lambda_function.counter_function.invoke_arn
-          }
-        }
-      }
-    }
-  })
+# ─────────────────────────────────────────────
+# API Gateway
+# ─────────────────────────────────────────────
+# HTTP API Gateway
+resource "aws_apigatewayv2_api" "visitor_counter_api" {
+  name          = "visitor-counter-api"
+  protocol_type = "HTTP"
 
-  name = var.rest_api_name
-
-  endpoint_configuration {
-    types = ["REGIONAL"]
+  # Configure CORS so your frontend can call this endpoint
+  cors_configuration {
+    allow_origins = ["https://shaunmane.com"] 
+    allow_methods = ["GET", "OPTIONS"]
+    allow_headers = ["Content-Type", "Authorization"]
+    max_age       = 300
   }
 }
 
-resource "aws_api_gateway_deployment" "counter_api_deployment" {
-  rest_api_id = aws_api_gateway_rest_api.counter_api.id
-
-  triggers = {
-    redeployment = sha1(jsonencode(aws_api_gateway_rest_api.counter_api.body))
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
+# $default Stage (Auto-deploys changes immediately)
+resource "aws_apigatewayv2_stage" "counter_stage" {
+  api_id      = aws_apigatewayv2_api.visitor_counter_api.id
+  name        = "$default"
+  auto_deploy = true
 }
 
-resource "aws_api_gateway_stage" "counter_api_stage" {
-  deployment_id = aws_api_gateway_deployment.counter_api_deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.counter_api.id
-  stage_name    = var.counter_api_stage_name
+# Integration between API Gateway and Lambda
+resource "aws_apigatewayv2_integration" "lambda_integration" {
+  api_id           = aws_apigatewayv2_api.visitor_counter_api.id
+  integration_type = "AWS_PROXY"
+
+  integration_uri    = aws_lambda_function.counter_function.arn
+  integration_method = "POST"                  
+  payload_format_version = "2.0"
+}
+
+# GET /visitors Route
+resource "aws_apigatewayv2_route" "get_visitors_route" {
+  api_id    = aws_apigatewayv2_api.visitor_counter_api.id
+  route_key = "GET /visitors"
+  target    = "integrations/${aws_apigatewayv2_integration.lambda_integration.id}"
 }

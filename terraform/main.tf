@@ -1,15 +1,9 @@
-
-# ───────────── S3 Bucket - FrontEnd ───────────── #
-
+# ─────────────────────────────────────────────
+# S3 Bucket
+# ─────────────────────────────────────────────
+# Website files to be stored here
 resource "aws_s3_bucket" "website_bucket" {
   bucket = var.bucket_name
-}
-
-resource "aws_s3_bucket_ownership_controls" "website_bucket_ownership" {
-  bucket = aws_s3_bucket.website_bucket.id
-  rule {
-    object_ownership = "BucketOwnerPreferred"
-  }
 }
 
 resource "aws_s3_bucket_public_access_block" "website" {
@@ -19,6 +13,16 @@ resource "aws_s3_bucket_public_access_block" "website" {
   block_public_policy     = true
   ignore_public_acls      = true
   restrict_public_buckets = true
+}
+
+resource "aws_s3_object" "website_files" {
+  for_each = fileset("${path.module}/../website", "**/*")
+
+  bucket = aws_s3_bucket.website.id
+  key    = each.value
+  source = "${path.module}/../website/${each.value}"
+
+  etag = filemd5("${path.module}/../website/${each.value}")
 }
 
 resource "aws_s3_bucket_policy" "website_policy" {
@@ -38,8 +42,7 @@ resource "aws_s3_bucket_policy" "website_policy" {
             "Condition": {
                 "StringEquals": {
                     "AWS:SourceArn": [
-                        "${aws_cloudfront_distribution.root_distribution.arn}",
-                        "${aws_cloudfront_distribution.sub_distribution.arn}"
+                        "${aws_cloudfront_distribution.website_distribution.arn}"
                     ]
                 }
             }
@@ -48,7 +51,10 @@ resource "aws_s3_bucket_policy" "website_policy" {
   })
 }
 
-# ───────────── ACM - TLS Cert - Root ───────────── #
+# ─────────────────────────────────────────────
+# ACM
+# ─────────────────────────────────────────────
+# TLS/SSL Certificate
 
 resource "aws_acm_certificate" "website_tls" {
   provider          = aws.us_east_1
@@ -67,32 +73,6 @@ resource "aws_acm_certificate_validation" "tls_validation" {
   provider = aws.us_east_1            
 
   certificate_arn = aws_acm_certificate.website_tls.arn
-
-  validation_record_fqdns = [
-    for record in cloudflare_dns_record.acm_validation :
-    record.name
-  ]
-}
-
-# ───────────── ACM - TLS Cert - WWW ───────────── #
-
-resource "aws_acm_certificate" "www_website_tls" {
-  provider          = aws.us_east_1
-  domain_name       = "www.${var.domain_name}"
-  subject_alternative_names = [
-    "www.${var.domain_name}"
-  ]
-  validation_method = "DNS"
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_acm_certificate_validation" "www_tls_validation" {
-  provider = aws.us_east_1            
-
-  certificate_arn = aws_acm_certificate.www_website_tls.arn
 
   validation_record_fqdns = [
     for record in cloudflare_dns_record.acm_validation :

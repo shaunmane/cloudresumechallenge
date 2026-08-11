@@ -1,11 +1,12 @@
 resource "aws_lambda_function" "counter_function" {
-  filename      = "function.zip"
+  filename      = "lambda/lambda.zip"
   function_name = var.function_name
   role          = aws_iam_role.lambda_role.arn
   handler       = "lambda_function.lambda_handler"
   runtime       = "python3.13"
   memory_size   = 512
   timeout       = 30
+  source_code_hash = filebase64sha256("lambda/lambda.zip")
 
   # Advanced logging configuration
   logging_config {
