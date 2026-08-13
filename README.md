@@ -9,8 +9,7 @@ The challenge demonstrates practical cloud engineering and DevOps skills by buil
 ## 🌐 Live Demo
 
 - Portfolio Website: [https://shaunmane.com](https://shaunmane.com)
-- API Endpoint: `https://your-api-url`
-- Visitor Counter API: Enabled
+- Visitor Counter API: Disabled
 
 ---
 
@@ -164,3 +163,5 @@ Private S3 Bucket (OAC)
 - S3 bucket access restricted through CloudFront
 - HTTPS enforced across the site
 - Secrets managed using GitHub Secrets
+- Checkov security scanning
+- Branch protection rules enforced
