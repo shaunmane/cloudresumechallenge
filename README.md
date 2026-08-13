@@ -164,3 +164,5 @@ Private S3 Bucket (OAC)
 - S3 bucket access restricted through CloudFront
 - HTTPS enforced across the site
 - Secrets managed using GitHub Secrets
+- Checkov security scanning
+- Branch protection rules enforced
