@@ -41,11 +41,6 @@ variable "aws_region" {
   type        = string
 }
 
-variable "vpc_id" {
-  description = "Default VPC ID"
-  type        = string
-}
-
 variable "cloudflare_zone_id" {
   type        = string
 }

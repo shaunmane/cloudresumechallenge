@@ -6,5 +6,4 @@ db_table              = "site-visitor-counter"
 lambda_role           = "lambda_execution_role"
 log_retention_in_days = 7
 aws_region            = "us-east-1"
-vpc_id                = "vpc-01a6c76ac425433fb"
 cloudflare_zone_id    = "8d1db44c3fe96348b9c1b28d0201530d"
