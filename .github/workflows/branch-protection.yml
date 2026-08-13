@@ -1,0 +1,25 @@
+name: Restrict Pushes to Main
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-branch-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate branch source
+        run: |
+          SOURCE_BRANCH="${GITHUB_HEAD_REF}"
+          echo "Source branch is: $SOURCE_BRANCH"
+
+          case "$SOURCE_BRANCH" in
+            feature/*|bugfix/*|hotfix/*)
+              echo "✅ Branch name is valid!"
+              ;;
+            *)
+              echo "❌ Only branches starting with feature/, bugfix/, or hotfix/ can be merged into main"
+              exit 1
+              ;;
+          esac
