@@ -9,8 +9,7 @@ The challenge demonstrates practical cloud engineering and DevOps skills by buil
 ## 🌐 Live Demo
 
 - Portfolio Website: [https://shaunmane.com](https://shaunmane.com)
-- API Endpoint: `https://your-api-url`
-- Visitor Counter API: Enabled
+- Visitor Counter API: Disabled
 
 ---
 
