@@ -22,7 +22,7 @@ This project uses a fully serverless architecture on AWS.
 
 - **Amazon S3** – Static website hosting
 - **Amazon CloudFront** – CDN and HTTPS delivery
-- **AWS Route 53** – DNS management
+- **Cloudflare** – DNS management
 - **AWS Certificate Manager (ACM)** – SSL certificates
 - **AWS Lambda** – Backend API for visitor counter
 - **Amazon DynamoDB** – Stores visitor count
@@ -35,65 +35,76 @@ This project uses a fully serverless architecture on AWS.
 ## 🏗️ Infrastructure Diagram
 
 ```text
-                           ┌───────────────────────┐
-                           │       GitHub          │
-                           │   Source Repository   │
-                           └──────────┬────────────┘
-                                      │
-                                      ▼
-                           ┌───────────────────────┐
-                           │    GitHub Actions     │
-                           │      CI/CD Pipeline   │
-                           └──────────┬────────────┘
-                                      │
-                     ┌────────────────┴────────────────┐
-                     │                                 │
-                     ▼                                 ▼
+                         ┌───────────────────────┐
+                         │       GitHub          │
+                         │   Source Repository   │
+                         └───────────┬───────────┘
+                                     │
+                                     ▼
+                         ┌───────────────────────┐
+                         │     GitHub Actions    │
+                         │     CI/CD Pipeline    │
+                         └───────────┬───────────┘
+                                     │
+                    ┌────────────────┴────────────────┐
+                    │                                 │
+                    ▼                                 ▼
           ┌──────────────────┐             ┌──────────────────┐
           │ Terraform Deploy │             │ Frontend Deploy  │
-          │ AWS Infrastructure│            │ Upload to S3     │
+          │   AWS Resources  │             │   Upload to S3   │
           └─────────┬────────┘             └─────────┬────────┘
                     │                                │
-                    ▼                                ▼
-         ┌─────────────────────┐          ┌─────────────────────┐
-         │      AWS Cloud      │          │     S3 Bucket       │
-         │   Infrastructure    │◄────────►│ Static Resume Site  │
-         └─────────┬───────────┘          └─────────┬───────────┘
-                   │                                │
-                   ▼                                ▼
-           ┌────────────────┐              ┌──────────────────┐
-           │   Route 53     │─────────────►│   CloudFront CDN │
-           │   DNS Records  │              │ HTTPS + Caching  │
-           └────────────────┘              └─────────┬────────┘
-                                                     │
-                           ┌─────────────────────────┴─────────────────────────┐
-                           │                                                   │
-                           ▼                                                   ▼
-                ┌──────────────────┐                              ┌──────────────────┐
-                │   Resume Website │                              │  API Gateway     │
-                │  HTML/CSS/JS App │                              │ Visitor API      │
-                └──────────────────┘                              └─────────┬────────┘
-                                                                             │
-                                                                             ▼
-                                                                  ┌──────────────────┐
-                                                                  │ AWS Lambda       │
-                                                                  │ Visitor Counter  │
-                                                                  └─────────┬────────┘
-                                                                             │
-                                                                             ▼
-                                                                  ┌──────────────────┐
-                                                                  │ DynamoDB Table   │
-                                                                  │ Visitor Count DB │
-                                                                  └──────────────────┘
+                    └──────────────┬─────────────────┘
+                                   ▼
+                         ┌───────────────────────┐
+                         │       AWS Cloud       │
+                         │                       │
+                         │  S3 + CloudFront      │
+                         │  API Gateway + Lambda │
+                         │  DynamoDB             │
+                         └───────────┬───────────┘
+                                     │
+                                     │
+                    ┌────────────────┴────────────────┐
+                    │                                 │
+                    ▼                                 ▼
+          ┌──────────────────┐             ┌──────────────────┐
+          │   CloudFront     │             │   API Gateway    │
+          │   Static Site    │             │   Visitor API    │
+          └─────────┬────────┘             └─────────┬────────┘
+                    │                                │
+                    │                                ▼
+                    │                       ┌──────────────────┐
+                    │                       │      Lambda      │
+                    │                       │ Visitor Counter  │
+                    │                       └─────────┬────────┘
+                    │                                 │
+                    │                                 ▼
+                    │                       ┌──────────────────┐
+                    │                       │    DynamoDB      │
+                    │                       │  Visitor Count   │
+                    │                       └──────────────────┘
+                    │
+                    ▼
+          ┌──────────────────┐
+          │    Cloudflare    │
+          │       DNS        │
+          └─────────┬────────┘
+                    │
+                    ▼
+          ┌──────────────────┐
+          │       User       │
+          │  Custom Domain   │
+          └──────────────────┘
 
 Flow:
 1. User visits custom domain
-2. Route 53 routes traffic to CloudFront
-3. CloudFront serves static frontend from S3
-4. Frontend calls API Gateway endpoint
-5. API Gateway triggers Lambda function
-6. Lambda reads/writes visitor count in DynamoDB
-7. Updated visitor count is returned to frontend
+2. Cloudflare handles DNS and routes the request to CloudFront
+3. CloudFront serves the static frontend from S3
+4. Frontend calls the API Gateway endpoint
+5. API Gateway triggers the Lambda function
+6. Lambda reads/writes the visitor count in DynamoDB
+7. Updated visitor count is returned to the frontend
 8. GitHub Actions automates deployments using Terraform
 ```
 
