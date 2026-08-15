@@ -114,20 +114,17 @@ Flow:
 │   ├── portfolio_update.yml
 │   └── deploy_infra.yml
 │
-├── frontend/                 # Resume website files
+├── website/                  # Resume website files
 │   ├── index.html
 │   ├── style.css
 │   └── script.js
 │
 ├── terraform/                # Terraform configuration
-│   ├── modules/
+│   ├── lambda/               # Lambda function source
 │   ├── main.tf
 │   ├── variables.tf
 │   ├── outputs.tf
 │   └── providers.tf
-│
-├── backend/                  # Lambda function source
-│   └── visitor-counter.py
 │
 └── README.md
 ```
