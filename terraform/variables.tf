@@ -1,22 +1,22 @@
 variable "cloudflare_api_token" {
   description = "Cloudflare API Token"
-  type      = string
-  sensitive = true
+  type        = string
+  sensitive   = true
 }
 
 variable "domain_name" {
   description = "Website name"
-  type = string
+  type        = string
 }
 
 variable "bucket_name" {
   description = "Name of the bucket with portforlio website"
-  type = string
+  type        = string
 }
 
 variable "api_name" {
   description = "Name of HTTP API in API Gateway"
-  type = string
+  type        = string
 }
 
 variable "function_name" {

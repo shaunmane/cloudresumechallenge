@@ -44,12 +44,6 @@ jobs:
         run: |
           terraform fmt -check -recursive -diff
         continue-on-error: true
-      - name: Auto Commit Changes
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "style: Terraform fmt"
-          file_pattern: "*.tf"
-          commit_user_name: "github-actions[bot]"
       - name: Terraform Init
         id: init
         working-directory: ${{ env.WORKING_DIR }}
