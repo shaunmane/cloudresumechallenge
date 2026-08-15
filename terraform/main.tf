@@ -6,6 +6,64 @@ resource "aws_s3_bucket" "website_bucket" {
   bucket = var.bucket_name
 }
 
+resource "aws_s3_bucket_versioning" "versioning_example" {
+  bucket = aws_s3_bucket.example.id
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_cors_configuration" "website" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  cors_rule {
+    allowed_headers = [
+      "Content-Type",
+      "Authorization",
+      "x-amz-date",
+      "x-amz-content-sha256",
+      "x-amz-security-token"
+    ]
+
+    allowed_methods = [
+      "GET",
+      "PUT",
+      "POST",
+      "DELETE",
+      "HEAD"
+    ]
+
+    allowed_origins = [
+      "https://${var.domain_name}",
+      "https://www.${var.domain_name}"
+    ]
+
+    expose_headers = [
+      "ETag"
+    ]
+
+    max_age_seconds = 3000
+  }
+}
+
+resource "aws_kms_key" "s3" {
+  description         = "KMS key for S3 bucket encryption"
+  enable_key_rotation = true
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "website_bucket_encrypt" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm     = "aws:kms"
+      kms_master_key_id = aws_kms_key.s3.arn
+    }
+
+    bucket_key_enabled = true
+  }
+}
+
 resource "aws_s3_bucket_public_access_block" "website" {
   bucket = aws_s3_bucket.website_bucket.id
 
@@ -49,6 +107,43 @@ resource "aws_s3_bucket_policy" "website_policy" {
       }
     ]
   })
+}
+
+
+resource "aws_s3_bucket" "logs" {
+  bucket = "${var.bucket_name}-access-logs"
+}
+
+resource "aws_s3_bucket_logging" "website_bucket_logs" {
+  bucket        = aws_s3_bucket.website_bucket.id
+  target_bucket = aws_s3_bucket.logs.id
+  target_prefix = "s3-access-logs/"
+}
+
+resource "aws_s3_bucket_public_access_block" "logs" {
+  bucket = aws_s3_bucket.logs.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "logs" {
+  bucket = aws_s3_bucket.logs.id
+
+  rule {
+    id     = "expire-old-access-logs"
+    status = "Enabled"
+
+    filter {
+      prefix = "s3-access-logs/"
+    }
+
+    expiration {
+      days = 90
+    }
+  }
 }
 
 # ─────────────────────────────────────────────

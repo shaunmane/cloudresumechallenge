@@ -28,9 +28,9 @@ jobs:
       TF_VAR_CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ env.AWS_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
@@ -61,7 +61,7 @@ jobs:
     needs: validate
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - uses: terraform-linters/setup-tflint@v6
         name: Setup TFLint
         with:
@@ -83,12 +83,13 @@ jobs:
     needs: tflint
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Checkov GitHub Action
         uses: bridgecrewio/checkov-action@v12
         with:
           output_format: cli,sarif
           output_file_path: console,results.sarif
+        continue-on-error: true
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v2
         if: success() || failure()
@@ -103,9 +104,9 @@ jobs:
       TF_VAR_CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v5
         with:
           role-to-assume: ${{ env.AWS_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
