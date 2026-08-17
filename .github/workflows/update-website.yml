@@ -1,0 +1,41 @@
+name: Update Website
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'website/**'
+
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+  AWS_ROLE: ${{ secrets.UPDATE_ROLE }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  WORKING_DIR: ./website
+  BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+  CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+
+jobs:
+  update:
+    name: Update website
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy website to S3
+        run: |
+          aws s3 sync website/ s3://${{ env.BUCKET_NAME }} \
+            --delete
+
+      - name: Invalidate CloudFront
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ env.CLOUDFRONT_DISTRIBUTION_ID }} \
+            --paths "/*"
