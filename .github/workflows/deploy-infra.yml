@@ -21,7 +21,6 @@ env:
   AWS_ROLE: ${{ secrets.DEPLOY_ROLE }}
   AWS_REGION: ${{ vars.AWS_REGION }}
   TF_VERSION: ${{ vars.TF_VERSION }}
-  TFLINT_VERSION: ${{ vars.TFLINT_VERSION }}
   WORKING_DIR: ./terraform 
 
 jobs:
