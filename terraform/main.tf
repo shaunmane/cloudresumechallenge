@@ -171,7 +171,10 @@ data "cloudflare_dns_records" "acm_validation" {
 
   zone_id = var.cloudflare_zone_id
 
-  name = each.value.resource_record_name
+  name = {
+    exact = trimsuffix(each.value.resource_record_name, ".")
+  }
+
   type = each.value.resource_record_type
 }
 
@@ -179,7 +182,7 @@ resource "aws_acm_certificate_validation" "tls_validation" {
   certificate_arn = aws_acm_certificate.website_tls.arn
 
   validation_record_fqdns = [
-    for record in data.cloudflare_dns_records.acm_validation :
+    for domain, record in data.cloudflare_dns_records.acm_validation :
     record.records[0].name
   ]
 }
