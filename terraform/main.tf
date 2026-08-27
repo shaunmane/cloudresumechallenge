@@ -183,6 +183,8 @@ resource "aws_acm_certificate_validation" "tls_validation" {
 
   validation_record_fqdns = [
     for domain, record in data.cloudflare_dns_records.acm_validation :
-    record.records[0].name
+    record.name.exact
   ]
 }
+
+
