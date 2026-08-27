@@ -1,0 +1,65 @@
+name: Deploy Infrastructure
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
+
+concurrency:
+  group: terraform-portfolio-state
+  cancel-in-progress: false
+
+permissions:
+  id-token: write   
+  contents: read    
+  pull-requests: write 
+
+env:
+  GITHUB_TOKEN: ${{ github.token }}
+  AWS_ROLE: ${{ secrets.DEPLOY_ROLE }}
+  AWS_REGION: ${{ vars.AWS_REGION }}
+  TF_VERSION: ${{ vars.TF_VERSION }}
+  WORKING_DIR: ./terraform 
+
+jobs:
+  deploy:
+    name: Deploy Infra
+    runs-on: ubuntu-latest
+    env:
+      TF_VAR_cloudflare_api_token: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          role-to-assume: ${{ env.AWS_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+      - name: Setup Terraform 
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+      - name: Terraform Format
+        id: fmt
+        working-directory: ${{ env.WORKING_DIR }}
+        run: |
+          terraform fmt -check -recursive -diff
+      - name: Terraform Init
+        id: init
+        working-directory: ${{ env.WORKING_DIR }}
+        run: |
+          terraform init -input=false
+      - name: Terraform Validate
+        id: validate
+        working-directory: ${{ env.WORKING_DIR }}
+        run: |
+          terraform validate
+      - name: Terraform Plan
+        working-directory: ${{ env.WORKING_DIR }}
+        run: terraform plan -input=false -var-file="terraform.tfvars" -out=tfplan
+      - name: Terraform Apply
+        working-directory: ${{ env.WORKING_DIR }}
+        run: terraform apply --auto-approve tfplan
+ 

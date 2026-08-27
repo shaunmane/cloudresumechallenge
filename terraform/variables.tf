@@ -5,7 +5,7 @@ variable "cloudflare_api_token" {
 }
 
 variable "domain_name" {
-  description = "Website name"
+  description = "Portfolio website name"
   type        = string
 }
 

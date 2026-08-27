@@ -2,6 +2,10 @@ name: Generate terraform docs
 
 on:
   pull_request:
+    branches:
+      - main
+    paths:
+      - 'terraform/**'
 
 permissions: {}
 
