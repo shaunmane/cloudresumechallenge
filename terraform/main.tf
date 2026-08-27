@@ -163,30 +163,23 @@ resource "aws_acm_certificate" "website_tls" {
   }
 }
 
-resource "cloudflare_dns_record" "acm_validation" {
+data "cloudflare_dns_records" "acm_validation" {
   for_each = {
     for dvo in aws_acm_certificate.website_tls.domain_validation_options :
-    dvo.domain_name => {
-      name  = dvo.resource_record_name
-      type  = dvo.resource_record_type
-      value = dvo.resource_record_value
-    }
+    dvo.domain_name => dvo
   }
 
   zone_id = var.cloudflare_zone_id
-  name    = each.value.name
-  type    = each.value.type
-  content = each.value.value
 
-  ttl     = 60
-  proxied = false
+  name = each.value.resource_record_name
+  type = each.value.resource_record_type
 }
 
 resource "aws_acm_certificate_validation" "tls_validation" {
   certificate_arn = aws_acm_certificate.website_tls.arn
 
   validation_record_fqdns = [
-    for record in cloudflare_dns_record.acm_validation :
-    record.name
+    for record in data.cloudflare_dns_records.acm_validation :
+    record.records[0].name
   ]
 }
