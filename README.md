@@ -111,8 +111,8 @@ Flow:
 ```text
 .
 ├── .github/workflows/        # GitHub Actions CI/CD
-│   ├── portfolio_update.yml
-│   └── deploy_infra.yml
+│   ├── update-website.yml
+│   └── deploy-infra.yml
 │
 ├── website/                  # Resume website files
 │   ├── index.html
