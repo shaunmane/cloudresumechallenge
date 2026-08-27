@@ -1,5 +1,5 @@
 domain_name           = "shaunmane.com"
-bucket_name           = "shaunmane.com-portfolio-website"
+bucket_name           = "shaunmane-portfolio-website"
 api_name              = "visitor-counter-api"
 function_name         = "counter_function"
 db_table              = "site-visitor-counter"
