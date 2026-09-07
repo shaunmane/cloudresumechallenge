@@ -46,6 +46,6 @@ variable "aws_region" {
 }
 
 variable "cloudflare_zone_id" {
-  description = "Cloudflare zone ID from domain overview"
+  description = "Cloudflare zone ID from domain overview in cloudflare"
   type        = string
 }
