@@ -24,7 +24,7 @@
 | <a name="input_aws_region"></a> [aws\_region](#input\_aws\_region) | Region used for the website | `string` | `"us-east-1"` | no |
 | <a name="input_bucket_name"></a> [bucket\_name](#input\_bucket\_name) | Name of the bucket with portforlio website | `string` | n/a | yes |
 | <a name="input_cloudflare_api_token"></a> [cloudflare\_api\_token](#input\_cloudflare\_api\_token) | Cloudflare API Token | `string` | n/a | yes |
-| <a name="input_cloudflare_zone_id"></a> [cloudflare\_zone\_id](#input\_cloudflare\_zone\_id) | Cloudflare zone ID from domain overview | `string` | n/a | yes |
+| <a name="input_cloudflare_zone_id"></a> [cloudflare\_zone\_id](#input\_cloudflare\_zone\_id) | Cloudflare zone ID from domain overview in cloudflare | `string` | n/a | yes |
 | <a name="input_db_table"></a> [db\_table](#input\_db\_table) | Name of the dynamodb table | `string` | n/a | yes |
 | <a name="input_domain_name"></a> [domain\_name](#input\_domain\_name) | Portfolio website name | `string` | n/a | yes |
 | <a name="input_function_name"></a> [function\_name](#input\_function\_name) | Name of the Lambda function | `string` | n/a | yes |
