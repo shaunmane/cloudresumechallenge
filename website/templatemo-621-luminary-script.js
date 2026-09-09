@@ -202,7 +202,7 @@ function updateFaqToggleLabel() {
 }
 
 // Visitor Counter
-const API_URL = 'https://0uxn3h1vej.execute-api.us-east-1.amazonaws.com';
+const API_URL = 'https://0uxn3h1vej.execute-api.us-east-1.amazonaws.com/visitors';
 
 async function updateVisitorCounter() {
   try {
