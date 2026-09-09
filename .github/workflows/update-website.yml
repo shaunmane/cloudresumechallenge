@@ -36,14 +36,18 @@ jobs:
 
       - name: Deploy website to S3
         run: |
+          # 1. Sync HTML files explicitly forcing text/html content-type and AES256 encryption
           aws s3 sync ./website s3://${{ env.BUCKET_NAME }} \
             --delete \
+            --sse AES256 \
             --content-type "text/html" \
             --exclude "*" \
             --include "*.html"
     
+          # 2. Sync all other assets forcing AES256 encryption to overwrite old KMS keys
           aws s3 sync ./website s3://${{ env.BUCKET_NAME }} \
             --delete \
+            --sse AES256 \
             --exclude "*.html"
 
       - name: Invalidate CloudFront
