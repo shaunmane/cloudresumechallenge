@@ -200,3 +200,24 @@ function updateFaqToggleLabel() {
   allExpanded = openCount === faqItems.length;
   faqToggleAll.textContent = allExpanded ? 'Collapse All' : 'Expand All';
 }
+
+// Visitor Counter
+const API_URL = 'https://0uxn3h1vej.execute-api.us-east-1.amazonaws.com';
+
+async function updateVisitorCounter() {
+  try {
+    const response = await fetch(API_URL);
+    const data = await response.json();
+    
+    if (data.views !== undefined) {
+      document.getElementById('visitorCount').textContent = data.views;
+    } else {
+      document.getElementById('visitorCount').textContent = '--';
+    }
+  } catch (error) {
+    console.error('Error fetching count:', error);
+    document.getElementById('visitorCount').textContent = '--';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', updateVisitorCounter);
