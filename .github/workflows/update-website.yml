@@ -19,6 +19,11 @@ jobs:
   update:
     name: Update website
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
@@ -31,8 +36,15 @@ jobs:
 
       - name: Deploy website to S3
         run: |
-          aws s3 sync website/ s3://${{ env.BUCKET_NAME }} \
-            --delete
+          aws s3 sync ./website s3://${{ env.BUCKET_NAME }} \
+            --delete \
+            --content-type "text/html" \
+            --exclude "*" \
+            --include "*.html"
+    
+          aws s3 sync ./website s3://${{ env.BUCKET_NAME }} \
+            --delete \
+            --exclude "*.html"
 
       - name: Invalidate CloudFront
         run: |
