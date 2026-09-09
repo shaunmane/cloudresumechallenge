@@ -93,6 +93,8 @@ resource "aws_s3_object" "website_files" {
     svg  = "image/svg+xml"
     ico  = "image/x-icon"
   }, lower(element(split(".", each.value), length(split(".", each.value)) - 1)), "application/octet-stream")
+
+  content_disposition = "inline"
 }
 
 resource "aws_s3_bucket_policy" "website_policy" {
