@@ -1,5 +1,10 @@
 # Cloud Resume Challenge - My Portfolio 
 
+[![Terraform Plan](https://github.com/shaunmane/cloudresumechallenge/actions/workflows/tf-plan.yml/badge.svg?event=pull_request)](https://github.com/shaunmane/cloudresumechallenge/actions/workflows/tf-plan.yml)
+[![Deploy Infrastructure](https://github.com/shaunmane/cloudresumechallenge/actions/workflows/deploy-infra.yml/badge.svg?branch=main)](https://github.com/shaunmane/cloudresumechallenge/actions/workflows/deploy-infra.yml)
+[![Update Website](https://github.com/shaunmane/cloudresumechallenge/actions/workflows/update-website.yml/badge.svg?branch=main)](https://github.com/shaunmane/cloudresumechallenge/actions/workflows/update-website.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 This project is my implementation of the [Cloud Resume Challenge](https://cloudresumechallenge.dev/) using Terraform for Infrastructure as Code (IaC).
 
 The challenge demonstrates practical cloud engineering and DevOps skills by building and deploying a serverless resume website on AWS with automation, CI/CD, and monitoring.
@@ -9,7 +14,7 @@ The challenge demonstrates practical cloud engineering and DevOps skills by buil
 ## 🌐 Live Demo
 
 - Portfolio Website: [https://shaunmane.com](https://shaunmane.com)
-- Visitor Counter API: Disabled
+- Visitor Counter API: `Enabled`
 
 ---
 
@@ -147,10 +152,9 @@ Private S3 Bucket (OAC)
 - Fully serverless AWS architecture
 - HTTPS enabled with CloudFront + ACM
 - Automated infrastructure provisioning using Terraform
-- Visitor counter powered by Lambda + DynamoDB
+- Visitor counter powered by API Gateway + Lambda + DynamoDB
 - CI/CD pipeline with GitHub Actions
-- Custom domain with Route 53
-- Infrastructure modularization
+- Custom domain with CloudFlare
 - Secure IAM policies and least privilege access
 
 ## 🔐 Security Considerations
