@@ -46,11 +46,6 @@ resource "aws_s3_bucket_cors_configuration" "website" {
   }
 }
 
-resource "aws_kms_key" "s3" {
-  description         = "KMS key for S3 bucket encryption"
-  enable_key_rotation = true
-}
-
 resource "aws_s3_bucket_server_side_encryption_configuration" "website_bucket_encrypt" {
   bucket = aws_s3_bucket.website_bucket.id
 
