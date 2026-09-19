@@ -202,45 +202,21 @@ function updateFaqToggleLabel() {
 }
 
 // Visitor Counter
-const API_URL = 'https://0uxn3h1vej.execute-api.us-east-1.amazonaws.com/visitors';
+async function updateVisitorCount() {
+    try {
+        const response = await fetch(
+            "https://0uxn3h1vej.execute-api.us-east-1.amazonaws.com/visitors"
+        );
 
-async function updateVisitorCounter() {
-  const counterElement = document.getElementById('visitorCount');
-  if (!counterElement) {
-    console.error('Visitor counter element with ID "visitorCount" was not found in the DOM.');
-    return;
-  }
+        const data = await response.json();
 
-  try {
-    const response = await fetch(API_URL);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+        document.getElementById("visitorCount").textContent =
+            data.views.toLocaleString();
+
+    } catch (error) {
+        console.error(error);
+        document.getElementById("visitorCount").textContent = "—";
     }
-
-    const data = await response.json();
-
-    // 1. If API Gateway returns a proxy wrapper with a stringified body, parse it
-    let parsedData = data;
-    if (data.body && typeof data.body === 'string') {
-      parsedData = JSON.parse(data.body);
-    }
-
-    // 2. Extract the integer count safely
-    const views = parsedData.views ?? parsedData.count;
-    const finalCount = Number(views);
-
-    // 3. Render the view count or fallback to '--' if parsing failed
-    if (!isNaN(finalCount)) {
-      counterElement.textContent = finalCount.toLocaleString();
-    } else {
-      counterElement.textContent = '--';
-    }
-
-  } catch (error) {
-    console.error('Error fetching visitor count:', error);
-    counterElement.textContent = '--';
-  }
 }
 
-document.addEventListener('DOMContentLoaded', updateVisitorCounter);
+updateVisitorCount();
