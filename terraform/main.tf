@@ -72,6 +72,8 @@ resource "aws_s3_object" "website_files" {
   key    = each.value
   source = "${path.module}/../website/${each.value}"
 
+  server_side_encryption = "AES256"
+
   etag = filemd5("${path.module}/../website/${each.value}")
 
   content_type = lookup({
@@ -87,6 +89,10 @@ resource "aws_s3_object" "website_files" {
   }, lower(element(split(".", each.value), length(split(".", each.value)) - 1)), "application/octet-stream")
 
   content_disposition = "inline"
+
+  depends_on = [
+    aws_s3_bucket_server_side_encryption_configuration.website_bucket_encrypt
+  ]
 }
 
 resource "aws_s3_bucket_policy" "website_policy" {
@@ -114,7 +120,6 @@ resource "aws_s3_bucket_policy" "website_policy" {
     ]
   })
 }
-
 
 resource "aws_s3_bucket" "logs" {
   bucket = "${var.bucket_name}-access-logs"
