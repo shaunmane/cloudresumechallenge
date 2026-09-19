@@ -8,7 +8,10 @@ resource "aws_apigatewayv2_api" "visitor_counter_api" {
 
   # Configure CORS so your frontend can call this endpoint
   cors_configuration {
-    allow_origins = ["https://shaunmane.com"]
+    allow_origins = [
+      "https://shaunmane.com",
+      "https://www.shaunmane.com"
+    ]
     allow_methods = ["GET", "OPTIONS"]
     allow_headers = ["Content-Type", "Authorization"]
     max_age       = 300
