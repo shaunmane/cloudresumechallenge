@@ -28,12 +28,28 @@ const io = new IntersectionObserver(entries => {
 reveals.forEach(el => io.observe(el));
 
 // ── Counters ──
-document.querySelectorAll('.counter').forEach(el => {
+
+document.querySelectorAll('.counter:not(#visitorCount)').forEach(el => {
   new IntersectionObserver(([e]) => {
     if (!e.isIntersecting) return;
-    const t = parseFloat(el.dataset.target), d = parseInt(el.dataset.decimals), dur = 1800, s = performance.now();
-    const ease = x => x < 0.5 ? 4*x*x*x : 1 - Math.pow(-2*x+2,3)/2;
-    (function u(n) { const p = Math.min((n-s)/dur,1); el.textContent = (t*ease(p)).toFixed(d); if(p<1) requestAnimationFrame(u); })(s);
+
+    const t = parseFloat(el.dataset.target);
+    const d = parseInt(el.dataset.decimals) || 0;
+    const dur = 1800;
+    const s = performance.now();
+
+    const ease = x =>
+      x < 0.5
+        ? 4 * x * x * x
+        : 1 - Math.pow(-2 * x + 2, 3) / 2;
+
+    (function u(n) {
+      const p = Math.min((n - s) / dur, 1);
+      el.textContent = (t * ease(p)).toFixed(d);
+
+      if (p < 1) requestAnimationFrame(u);
+    })(s);
+
     e.target._counted = true;
   }, { threshold: 0.5 }).observe(el);
 });
@@ -143,79 +159,21 @@ menuLinks.forEach(l => l.addEventListener('click', closeMenu));
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenu(); });
 window.addEventListener('resize', () => { if (innerWidth > 1024) closeMenu(); });
 
-// ── Pricing toggle ──
-const pToggle = document.getElementById('pricingToggle');
-const mLabel = document.getElementById('monthlyLabel');
-const aLabel = document.getElementById('annualLabel');
-const saveBadge = document.getElementById('saveBadge');
-const monthlyOpts = document.querySelectorAll('.price-option.monthly');
-const annualOpts = document.querySelectorAll('.price-option.annual');
-let annual = false;
-
-function setPricing() {
-  annual = !annual;
-  pToggle.classList.toggle('annual', annual);
-  pToggle.setAttribute('aria-checked', annual);
-  mLabel.classList.toggle('active', !annual);
-  aLabel.classList.toggle('active', annual);
-  saveBadge.classList.toggle('show', annual);
-  monthlyOpts.forEach(el => el.classList.toggle('active', !annual));
-  annualOpts.forEach(el => el.classList.toggle('active', annual));
-}
-pToggle.addEventListener('click', setPricing);
-pToggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setPricing(); } });
-
-// ── FAQ accordion ──
-const faqItems = document.querySelectorAll('.faq-item');
-const faqToggleAll = document.getElementById('faqToggleAll');
-let allExpanded = false;
-
-document.querySelectorAll('.faq-question').forEach(btn => {
-  btn.addEventListener('click', () => {
-    btn.parentElement.classList.toggle('open');
-    updateFaqToggleLabel();
-  });
-});
-
-faqToggleAll.addEventListener('click', () => {
-  allExpanded = !allExpanded;
-  if (allExpanded) {
-    // Staggered expand — slow cascade, each waits for the previous to start breathing
-    faqItems.forEach((item, i) => {
-      setTimeout(() => item.classList.add('open'), i * 220);
-    });
-  } else {
-    // Staggered collapse — reverse order
-    const total = faqItems.length;
-    faqItems.forEach((item, i) => {
-      setTimeout(() => item.classList.remove('open'), (total - 1 - i) * 60);
-    });
-  }
-  // Update label after all animations complete
-  setTimeout(updateFaqToggleLabel, faqItems.length * 220 + 100);
-});
-
-function updateFaqToggleLabel() {
-  const openCount = document.querySelectorAll('.faq-item.open').length;
-  allExpanded = openCount === faqItems.length;
-  faqToggleAll.textContent = allExpanded ? 'Collapse All' : 'Expand All';
-}
-
 // Visitor Counter
 async function updateVisitorCount() {
+    const visitorCount = document.getElementById("visitorCount");
+
+    if (!visitorCount) return;
+
     try {
         const response = await fetch(
             "https://0uxn3h1vej.execute-api.us-east-1.amazonaws.com/visitors"
         );
-
         const data = await response.json();
-
-        document.getElementById("visitorCount").textContent =
-            data.views.toLocaleString();
-
+        visitorCount.textContent = Number(data.views).toLocaleString();
     } catch (error) {
-        console.error(error);
-        document.getElementById("visitorCount").textContent = "—";
+        console.error("Visitor count error:", error);
+        visitorCount.textContent = "—";
     }
 }
 
